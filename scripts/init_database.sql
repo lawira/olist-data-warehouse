@@ -28,6 +28,9 @@ GO
 CREATE DATABASE OlisDataWarehouse;
 GO
 
+USE OlisDataWarehouse;
+GO
+
 -- Create Schemas
 CREATE SCHEMA bronze;
 GO
