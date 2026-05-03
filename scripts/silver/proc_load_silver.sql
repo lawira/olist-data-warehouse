@@ -348,7 +348,20 @@ BEGIN
 		    FROM datesCTE
 		    WHERE full_date < '2018-12-31'
 		)
-		INSERT INTO silver.dates
+		INSERT INTO silver.dates (
+			date_key,
+			full_date,
+			day,
+			day_name,
+			day_of_week,
+			is_weekend,
+			week_of_year,
+			month,
+			month_name,
+			quarter,
+			quarter_name,
+			year
+		)
 		SELECT
 		    CAST(FORMAT(full_date, 'yyyyMMdd') AS INT) date_key,
 		    full_date,
