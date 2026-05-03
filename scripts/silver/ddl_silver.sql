@@ -136,3 +136,22 @@ CREATE TABLE silver.app_sellers (
 	dwh_create_date DATETIME2 DEFAULT GETDATE()
 );
 GO
+
+IF OBJECT_ID('silver.dates', 'U') IS NOT NULL
+	DROP TABLE silver.dates
+GO
+CREATE TABLE silver.dates (
+    date_key INT NOT NULL PRIMARY KEY,
+    full_date DATE NOT NULL,
+    day TINYINT NOT NULL,
+    day_name NVARCHAR(10) NOT NULL,
+    day_of_week TINYINT NOT NULL,
+    is_weekend BIT NOT NULL,
+    week_of_year TINYINT NOT NULL,
+    month TINYINT NOT NULL,
+    month_name NVARCHAR(10) NOT NULL,
+    quarter TINYINT NOT NULL,
+    quarter_name NVARCHAR(6) NOT NULL,
+    year SMALLINT NOT NULL
+);
+GO
