@@ -335,6 +335,42 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
+		-- Loading silver.dates
+		SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: silver.dates';
+		TRUNCATE TABLE silver.dates;
+		PRINT '>> Inserting Data Into: silver.dates';
+		WITH datesCTE AS (
+		    SELECT
+				CAST('2016-01-01' AS DATE) full_date
+		    UNION ALL
+		    SELECT DATEADD(DAY, 1, full_date)
+		    FROM datesCTE
+		    WHERE full_date < '2018-12-31'
+		)
+		INSERT INTO silver.dates
+		SELECT
+		    CAST(FORMAT(full_date, 'yyyyMMdd') AS INT) date_key,
+		    full_date,
+		    DAY(full_date) day,
+		    DATENAME(WEEKDAY, full_date) day_name,
+		    DATEPART(WEEKDAY, full_date) day_of_week,
+		    CASE 
+		        WHEN DATEPART(WEEKDAY, full_date) IN (1, 7) 
+		        THEN 1 ELSE 0 
+		    END is_weekend,
+		    DATEPART(WEEK, full_date) week_of_year,
+		    MONTH(full_date) month,
+		    DATENAME(MONTH, full_date) month_name,
+		    DATEPART(QUARTER, full_date) quarter,
+		    CONCAT('Q', DATEPART(QUARTER, full_date)) quarter_name,
+		    YEAR(full_date) year
+		FROM datesCTE
+		OPTION (MAXRECURSION 0);
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
 		SET @batch_end_time = GETDATE();
 		PRINT '==========================================';
 		PRINT 'Loading Silver Layer is Completed';
