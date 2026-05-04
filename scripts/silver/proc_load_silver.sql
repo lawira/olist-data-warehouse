@@ -168,11 +168,11 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-		-- Loading silver.app_order_reviews
+		-- Loading silver.app_orders
         SET @start_time = GETDATE();
-		PRINT '>> Truncating Table: silver.app_order_reviews';
-		TRUNCATE TABLE silver.app_order_reviews;
-		PRINT '>> Inserting Data Into: silver.app_order_reviews';
+		PRINT '>> Truncating Table: silver.app_orders';
+		TRUNCATE TABLE silver.app_orders;
+		PRINT '>> Inserting Data Into: silver.app_orders';
 		WITH HandleNullCTE AS (
 			SELECT
 				REPLACE(order_id, '"', '') order_id,
