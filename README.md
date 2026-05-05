@@ -199,4 +199,4 @@ This project is licensed under the [MIT License](LICENSE). You are free to use, 
 
 ## 🤖 About Me
 
-Hi there! I'm **Ari Wira Putra**, also known as **Wira**. I’m a Data Architect.
+Hi there! I'm **Ari Wira Putra**, also known as **Wira**. I’m a Data Analyst.
