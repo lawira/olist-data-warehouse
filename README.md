@@ -125,7 +125,7 @@ The Gold layer implements a **Galaxy Schema** (Fact Constellation Schema) — mu
 -- dim_customers: customers enriched with location
 -- dim_sellers: sellers enriched with location
 -- dim_products: products with English category translation
--- dim_dates: calendar dimension (referenced from Silver)
+-- dim_dates: calendar dimension
 ```
 
 ### Fact Views:
@@ -145,7 +145,7 @@ The Gold layer implements a **Galaxy Schema** (Fact Constellation Schema) — mu
 | `ROW_NUMBER()` for surrogate keys | Safe for static Olist dataset |
 | `date_key` as YYYYMMDD INT | Fast integer joins with `dim_dates` |
 | `fact_orders` has own `order_key` | Child facts (`payments`, `reviews`, `items`) join to it |
-| Geolocation folded into dimensions | No standalone use — enrichment only |
+| Geolocation excluded from dimensions | Use by app only |
 | Silver flags used in WHERE, not SELECT | Gold exposes only clean, trusted data |
 
 ---
@@ -197,6 +197,6 @@ This project is licensed under the [MIT License](LICENSE). You are free to use, 
 
 ---
 
-## 🌟 About Me
+## 🤖 About Me
 
-Hi there! I'm **Ari Wira Putra**, also known as **Wira**. I’m a Data Analyst.
+Hi there! I'm **Ari Wira Putra**, also known as **Wira**. I’m a Data Architect.
