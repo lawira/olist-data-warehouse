@@ -244,7 +244,8 @@ BEGIN
 					WHEN order_status = 'delivered' AND order_delivered_carrier_date IS NULL AND order_delivered_customer_date IS NULL THEN 'invalid'
 					WHEN order_status != 'delivered' AND order_delivered_customer_date IS NOT NULL AND datetime_flag = 'invalid' THEN 'invalid'
 					ELSE 'valid'
-				END status_flag
+				END status_flag,
+				ROW_NUMBER() OVER(PARTITION BY order_id ORDER BY order_purchase_timestamp DESC) duplicate_flag
 			FROM DatetimeFlagCTE
 		)
 		INSERT INTO silver.app_orders (
@@ -260,8 +261,18 @@ BEGIN
 			status_flag
 		)
 		SELECT
-			*
-		FROM StatusFlagCTE;
+			order_id,
+			customer_id,
+			order_status,
+			order_purchase_timestamp,
+			order_approved_at,
+			order_delivered_carrier_date,
+			order_delivered_customer_date,
+			order_estimated_delivery_date,
+			datetime_flag,
+			status_flag
+		FROM StatusFlagCTE
+		WHERE duplicate_flag = 1;
 		SET @end_time = GETDATE();
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
@@ -350,17 +361,17 @@ BEGIN
 		)
 		INSERT INTO silver.dates (
 			date_key,
-			full_date,
-			day,
-			day_name,
-			day_of_week,
-			is_weekend,
-			week_of_year,
-			month,
-			month_name,
-			quarter,
-			quarter_name,
-			year
+		    full_date,
+		    day,
+		    day_name,
+		    day_of_week,
+		    is_weekend,
+		    week_of_year,
+		    month,
+		    month_name,
+		    quarter,
+		    quarter_name,
+		    year
 		)
 		SELECT
 		    CAST(FORMAT(full_date, 'yyyyMMdd') AS INT) date_key,
@@ -381,9 +392,9 @@ BEGIN
 		FROM datesCTE
 		OPTION (MAXRECURSION 0);
 		SET @end_time = GETDATE();
-		PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
-		PRINT '>> -------------';
-
+        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+        PRINT '>> -------------';
+		
 		SET @batch_end_time = GETDATE();
 		PRINT '==========================================';
 		PRINT 'Loading Silver Layer is Completed';
