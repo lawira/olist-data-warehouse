@@ -353,7 +353,7 @@ SELECT DISTINCT
 FROM silver.app_order_reviews;
 
 -- ====================================================================
--- Checking 'silver.app_order_orders'
+-- Checking 'silver.app_orders'
 -- ====================================================================
 
 -- Check for NULLS & Empties
