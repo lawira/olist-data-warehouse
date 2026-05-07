@@ -273,7 +273,7 @@ SELECT DISTINCT
 FROM silver.app_order_payments;
 
 -- ====================================================================
--- Checking 'silver.app_order_payments'
+-- Checking 'silver.app_order_reviews'
 -- ====================================================================
 
 -- Check for NULLS, Empties, Zeros or Negative Numbers
@@ -353,7 +353,7 @@ SELECT DISTINCT
 FROM silver.app_order_reviews;
 
 -- ====================================================================
--- Checking 'silver.app_order_payments'
+-- Checking 'silver.app_order_orders'
 -- ====================================================================
 
 -- Check for NULLS & Empties
